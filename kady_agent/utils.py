@@ -29,8 +29,8 @@ def load_instructions(agent_name: str) -> str:
 
 def download_scientific_skills(
     target_dir: str = "sandbox/.gemini/skills",
-    github_repo: str = "K-Dense-AI/claude-scientific-skills",
-    source_path: str = "scientific-skills",
+    github_repo: str = "K-Dense-AI/scientific-agent-skills",
+    source_path: str = "skills",
     branch: str = "main"
 ) -> None:
     """
