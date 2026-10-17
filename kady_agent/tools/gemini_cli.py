@@ -5,6 +5,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from ..utils import load_instructions
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 _EXPERTS_MD = REPO_ROOT / "kady_agent" / "instructions" / "experts.md"
@@ -14,7 +16,7 @@ load_dotenv(REPO_ROOT / "kady_agent" / ".env")
 
 def _gemini_md_content(append_system_prompt: str) -> str:
     """Prepend shared expert instructions; remainder is role-specific prompt."""
-    base = _EXPERTS_MD.read_text(encoding="utf-8").strip() if _EXPERTS_MD.is_file() else ""
+    base = load_instructions("experts") if _EXPERTS_MD.is_file() else ""
     extra = (append_system_prompt or "").strip()
     if base and extra:
         return f"{base}\n\n---\n\n{extra}"

@@ -6,6 +6,7 @@ Personal fork of [K-Dense-AI/k-dense-byok](https://github.com/K-Dense-AI/k-dense
 
 - `start.sh` runs three services: LiteLLM proxy on :4000 (`litellm_config.yaml`, routes to OpenRouter), FastAPI backend on :8000 (`server.py`, runs the Google ADK agent in `kady_agent/agent.py`), Next.js frontend on :3000 (`web/`).
 - Kady's system prompt is `kady_agent/instructions/main_agent.md`; delegated experts get `experts.md` and run through the Gemini CLI (`kady_agent/tools/gemini_cli.py`). MCP servers are in `kady_agent/mcps.py`.
+- Local prompt additions go in `kady_agent/instructions/custom/` (`<agent>.md`, plus the gitignored `personal.md`), which `load_instructions` appends. Leave the upstream prompt files alone so upstream merges stay clean.
 - `prep_sandbox.py` creates `sandbox/` and downloads the scientific skills. `sandbox/` is gitignored.
 - API keys live in `kady_agent/.env` (gitignored). Never commit or print them.
 - Python >= 3.13 with `uv sync`; frontend uses npm in `web/`.

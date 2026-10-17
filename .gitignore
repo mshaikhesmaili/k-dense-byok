@@ -64,3 +64,5 @@ vertex_ai_credentials.json
 logs/
 
 AGENTS.md
+# Personal Kady instructions (see kady_agent/instructions/custom/personal.example.md)
+kady_agent/instructions/custom/personal.md
