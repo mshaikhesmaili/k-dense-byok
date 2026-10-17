@@ -7,16 +7,30 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+INSTRUCTIONS_DIR = Path(__file__).resolve().parent / "instructions"
+CUSTOM_INSTRUCTIONS_DIR = INSTRUCTIONS_DIR / "custom"
+
+
 def load_instructions(agent_name: str) -> str:
-    """Load instructions from a markdown file in the instructions directory."""
-    instructions_path = Path("kady_agent/instructions") / f"{agent_name}.md"
-    return instructions_path.read_text(encoding="utf-8")
+    """Load instructions from a markdown file in the instructions directory.
+
+    Appends ``custom/<agent_name>.md`` and the gitignored ``custom/personal.md``
+    when they exist, so local additions stay out of the upstream prompt files.
+    """
+    parts = [(INSTRUCTIONS_DIR / f"{agent_name}.md").read_text(encoding="utf-8").strip()]
+    for extra_path in (
+        CUSTOM_INSTRUCTIONS_DIR / f"{agent_name}.md",
+        CUSTOM_INSTRUCTIONS_DIR / "personal.md",
+    ):
+        if extra_path.is_file():
+            parts.append(extra_path.read_text(encoding="utf-8").strip())
+    return "\n\n".join(part for part in parts if part)
 
 
 def download_scientific_skills(
     target_dir: str = "sandbox/.gemini/skills",
-    github_repo: str = "K-Dense-AI/claude-scientific-skills",
-    source_path: str = "scientific-skills",
+    github_repo: str = "K-Dense-AI/scientific-agent-skills",
+    source_path: str = "skills",
     branch: str = "main"
 ) -> None:
     """
